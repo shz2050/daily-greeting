@@ -1,6 +1,6 @@
 ---
 name: daily-greeting
-description: Daily greeting Skill. Automatically sends greeting messages to all bound channels when OpenClaw starts. Triggers each agent to send their own daily greeting based on their persona. Executes once per day with local persistence.
+description: Give your OpenClaw agents personality! Automatically sends personalized daily greetings to all bound channels. Each agent greets users in their preferred language with relevant status updates. Supports BOOT.md and OpenClaw cron triggers.
 ---
 
 # Daily Greeting Skill
