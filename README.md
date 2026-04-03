@@ -5,12 +5,6 @@
 
 ---
 
-## Star History
-
-[![Star History](https://api.star-history.com/svg?repos=shz2050/daily-greeting&type=Timeline&theme=dark)](https://star-history.com/#shz2050/daily-greeting&type=Timeline)
-
----
-
 ## Overview
 
 A OpenClaw skill that automatically triggers all bound agents to send daily greeting messages when the Gateway starts.
@@ -205,3 +199,9 @@ Contributions welcome! Please open an issue or submit a PR.
 ## Support
 
 For issues and questions, please open a GitHub issue.
+
+---
+
+## Star History
+
+[![Star History](https://api.star-history.com/svg?repos=shz2050/daily-greeting&type=Timeline&theme=dark)](https://star-history.com/#shz2050/daily-greeting&type=Timeline)
