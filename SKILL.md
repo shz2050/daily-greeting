@@ -1,0 +1,85 @@
+---
+name: daily-greeting
+description: Daily greeting Skill. Automatically sends greeting messages to all bound channels when OpenClaw starts. Triggers each agent to send their own daily greeting based on their persona. Executes once per day with local persistence.
+---
+
+# Daily Greeting Skill
+
+## Features
+
+- 🎯 **Auto-trigger**: Executes on Gateway startup (via BOOT.md)
+- 📊 **State persistence**: Records execution status, prevents duplicate runs
+- 🔌 **Multi-platform**: Supports Discord, Feishu, etc.
+- ⏰ **Working days filter**: Only triggers on weekdays (configurable)
+- 🔄 **Resettable**: Supports manual reset
+
+## Installation
+
+1. Clone or copy skill to `~/.openclaw/skills/daily-greeting/`
+2. Ensure script is executable: `chmod +x scripts/greeting.sh`
+
+## Usage
+
+### Manual Execution
+
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
+```
+
+### Auto-trigger
+
+Add to workspace `BOOT.md`:
+
+```markdown
+# BOOT.md
+
+Please execute daily greeting:
+```
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
+```
+
+After execution, reply ONLY: `NO_REPLY`.
+```
+
+## Configuration
+
+Configure in `config.json`:
+
+```json
+{
+  "enabled": true,
+  "workingDaysOnly": true,
+  "delayMs": 3000,
+  "excludeAgents": ["main"],
+  "triggerMessage": "Please send a daily greeting to your bound channel. Requirements: 1) Organize message content based on your persona and性格; 2) Use message tool to send to your bound channel; 3) End conversation after sending"
+}
+```
+
+## Greeting Content
+
+Each agent organizes their own greeting message based on their persona and sends it to their bound channel.
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `bash scripts/greeting.sh run` | Execute greeting manually |
+| `bash scripts/greeting.sh status` | View execution status |
+| `bash scripts/greeting.sh reset` | Reset state (allows re-trigger) |
+
+## State File
+
+State is stored in `data/state.json`:
+
+```json
+{
+  "lastRun": "2026-04-03T10:40:00Z",
+  "agents": {
+    "diary": "completed"
+  }
+}
+```
+
+## Open Source License
+
+MIT License - Welcome contributions!
