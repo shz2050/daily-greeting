@@ -78,13 +78,22 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 <!-- daily-greeting:end -->
 ````
 
-#### 方式二：Cron（定时触发）
+#### 方式二：OpenClaw Cron（定时触发）
 
-默认 cron：`0 9 * * 1-5`（每个工作日早上 9 点）
-
-修改方式：
 ```bash
-crontab -e
+openclaw cron add \
+  --name "daily-greeting" \
+  --cron "0 9 * * 1-5" \
+  --session isolated \
+  --message "bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run" \
+  --wake now
+```
+
+默认：每个工作日早上 9 点
+
+查看/修改：
+```bash
+openclaw cron list
 ```
 
 两种方式同时生效，状态文件防止重复发送。

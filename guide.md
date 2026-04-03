@@ -65,13 +65,23 @@ Default: `0 9 * * 1-5` (9am on weekdays)
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
 ```
 
-**Set up cron (auto-trigger on schedule):**
+**Set up OpenClaw cron (auto-trigger on schedule):**
 
 ```bash
-bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh cron
+openclaw cron add \
+  --name "daily-greeting" \
+  --cron "0 9 * * 1-5" \
+  --session isolated \
+  --message "bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run" \
+  --wake now
 ```
 
-Default: `0 9 * * 1-5` (9am on weekdays)
+Default: 9am on weekdays (Mon-Fri)
+
+To view/modify cron jobs:
+```bash
+openclaw cron list
+```
 
 ---
 

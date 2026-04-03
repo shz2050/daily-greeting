@@ -82,13 +82,22 @@ After execution, reply ONLY: `NO_REPLY`.
 <!-- daily-greeting:end -->
 ````
 
-**Cron (triggers on schedule):**
+**OpenClaw Cron (triggers on schedule):**
 
-Default cron: `0 9 * * 1-5` (9am on weekdays)
-
-To modify:
 ```bash
-crontab -e
+openclaw cron add \
+  --name "daily-greeting" \
+  --cron "0 9 * * 1-5" \
+  --session isolated \
+  --message "bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run" \
+  --wake now
+```
+
+Default: 9am on weekdays (Mon-Fri)
+
+To view/modify:
+```bash
+openclaw cron list
 ```
 
 **Record install info:**

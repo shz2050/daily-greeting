@@ -202,22 +202,26 @@ EOF
   log_info "Install recorded: BOOT.md at $boot_md"
 }
 
-# Install cron job for daily greeting
+# Install cron job for daily greeting using OpenClaw's built-in cron
 install_cron() {
   local cron_schedule="${1:-0 9 * * 1-5}"
-  local cron_cmd="bash $SKILL_DIR/scripts/greeting.sh run"
-  local cron_entry="$cron_schedule $cron_cmd"
 
   # Check if already installed
-  if crontab -l 2>/dev/null | grep -q "$cron_cmd"; then
-    log_info "Cron job already installed: $cron_entry"
+  if openclaw cron list 2>/dev/null | grep -q "daily-greeting"; then
+    log_info "OpenClaw cron job already exists for daily-greeting"
     return 0
   fi
 
-  # Add cron job (append to existing crontab)
-  (crontab -l 2>/dev/null; echo "$cron_entry") | crontab -
-  log_info "Cron job installed: $cron_entry"
-  log_info "To modify: crontab -e"
+  # Add cron job using OpenClaw's cron system
+  openclaw cron add \
+    --name "daily-greeting" \
+    --cron "$cron_schedule" \
+    --session isolated \
+    --message "bash $SKILL_DIR/scripts/greeting.sh run" \
+    --wake now
+
+  log_info "OpenClaw cron job installed: $cron_schedule (weekdays at 9am)"
+  log_info "To view/modify: openclaw cron list"
 }
 
 # Uninstall skill

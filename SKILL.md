@@ -48,13 +48,18 @@ After execution, reply ONLY: `NO_REPLY`.
 <!-- daily-greeting:end -->
 ```
 
-#### Method 2: Cron (triggers on schedule)
-
-Default cron: `0 9 * * 1-5` (9am on weekdays)
+#### Method 2: OpenClaw Cron (triggers on schedule)
 
 ```bash
-crontab -e
+openclaw cron add \
+  --name "daily-greeting" \
+  --cron "0 9 * * 1-5" \
+  --session isolated \
+  --message "bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run" \
+  --wake now
 ```
+
+Default: 9am on weekdays (Mon-Fri)
 
 Both methods work together safely - state check prevents duplicate greetings.
 
