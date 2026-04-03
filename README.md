@@ -1,31 +1,34 @@
 # Daily Greeting Skill
 
+> [!TIP]
+> Give your OpenClaw agents a personality! They automatically send personalized daily greetings to users every morning.
+
 <!-- Language Navigation -->
 [English](README.md) | [中文](docs/README_zh.md)
 
 ---
 
-## Overview
+## What It Does
 
-A OpenClaw skill that automatically triggers all bound agents to send daily greeting messages when the Gateway starts.
+Your agents wake up with you! Every morning (or on your schedule), each agent sends a personalized greeting to their bound channels with:
 
-**Give your OpenClaw agents the ability to send personalized daily greetings automatically.**
+- 🤖 **Agent personality** - Each greeting matches the agent's persona
+- 🌐 **User's language** - Greetings in the user's preferred language
+- 📊 **Relevant info** - Status updates, progress, reminders based on agent role
 
 ## Features
 
-| Feature | Description |
-|---------|-------------|
-| 🎯 **Dual trigger modes** | Supports both BOOT.md (on startup) and cron (scheduled) |
-| 📊 **State persistence** | Prevents duplicate executions within the same day |
-| 🔌 **Multi-platform** | Works with Discord, Feishu, and other channels |
-| ⏰ **Working days filter** | Only triggers on weekdays (configurable) |
-| 🔄 **Resettable** | Manual reset available for re-execution |
-| 🎨 **Persona-based** | Each agent sends messages in their own style |
-| 🧹 **Clean uninstall** | Removes only skill content, no leftover files |
+| | |
+|--------|---------|
+| ⚡ **Auto-trigger** | Works on startup (BOOT.md) or schedule (OpenClaw cron) |
+| 🛡️ **No duplicates** | State persistence prevents repeated greetings |
+| 🌐 **Any channel** | Discord, Feishu, Telegram, and more |
+| 🎨 **Persona-driven** | Each agent has its own greeting style |
+| 🧹 **Clean removal** | Uninstalls cleanly without leftovers |
 
 ## Quick Start
 
-### One-Click Install (Recommended)
+### One-Line Install
 
 Send OpenClaw this command:
 
@@ -34,7 +37,7 @@ Please execute the daily-greeting installation guide:
 https://raw.githubusercontent.com/shz2050/daily-greeting/main/guide.md
 ```
 
-OpenClaw will automatically read the guide and complete the entire installation (skill + BOOT.md setup + install record).
+OpenClaw handles everything automatically.
 
 ### Manual Installation
 
@@ -49,13 +52,9 @@ cp -r daily-greeting ~/.openclaw/skills/daily-greeting
 chmod +x ~/.openclaw/skills/daily-greeting/scripts/greeting.sh
 ```
 
-### Auto-trigger Setup
+## Auto-trigger Setup
 
-Choose one or both triggering methods based on your usage:
-
-#### Auto-trigger Setup
-
-Both BOOT.md and cron are enabled by default. State check prevents duplicate greetings.
+Both BOOT.md (startup) and OpenClaw cron (schedule) are enabled by default. State check prevents duplicate greetings.
 
 **BOOT.md (triggers on Gateway startup):**
 
@@ -106,7 +105,7 @@ openclaw cron list
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
 ```
 
-### Commands
+## Commands
 
 ```bash
 # Run greeting manually
@@ -118,7 +117,7 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh status
 # Reset (allow re-execution)
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh reset
 
-# Uninstall (removes skill and cleans BOOT.md)
+# Uninstall
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
 ```
 
@@ -147,50 +146,28 @@ Edit `config.json` to customize behavior:
 ## How It Works
 
 ```
-Gateway starts
-    ↓
-BOOT.md executes
+Gateway starts / Cron triggers
     ↓
 greeting.sh runs
     ↓
 Reads config → checks working day → checks if already run today
     ↓
 For each bound agent:
-    - Trigger agent with prompt
-    - Agent sends personalized greeting to their bound channel
+    - Agent sends personalized greeting to their channel
     ↓
 State saved to data/state.json
 ```
 
 ## Uninstall
 
-To completely remove daily-greeting skill:
-
 ```bash
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
 ```
 
-This will:
-1. Read the recorded BOOT.md path from `data/install.json`
-2. Remove **only** the marked daily-greeting section
-3. Remove the OpenClaw cron job
-4. Delete the skill directory
-
-## Directory Structure
-
-```
-daily-greeting/
-├── SKILL.md              # Skill definition
-├── README.md             # This file
-├── guide.md              # Installation guide (for OpenClaw auto-install)
-├── LICENSE               # MIT License
-├── config.json           # Configuration
-├── scripts/
-│   └── greeting.sh       # Main execution script
-└── data/
-    ├── state.json        # Execution state (auto-generated)
-    └── install.json      # Install record (BOOT.md path)
-```
+This removes:
+1. BOOT.md entry (only the marked section)
+2. OpenClaw cron job
+3. Skill directory
 
 ## Requirements
 
@@ -201,10 +178,6 @@ daily-greeting/
 ## License
 
 MIT License - See LICENSE file for details.
-
-## Contributing
-
-Contributions welcome! Please open an issue or submit a PR.
 
 ## Support
 
