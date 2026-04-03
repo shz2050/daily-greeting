@@ -63,12 +63,20 @@ nano ~/.openclaw/workspace/BOOT.md
 ```markdown
 # BOOT.md
 
+<!-- daily-greeting:start -->
 Please execute daily greeting:
 ```
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 ```
 
 After execution, reply ONLY: `NO_REPLY`.
+<!-- daily-greeting:end -->
+```
+
+**4. Record install info (for clean uninstall):**
+
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
 ```
 
 Now when OpenClaw Gateway starts, it will automatically execute this greeting skill.
@@ -84,7 +92,23 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh status
 
 # Reset (allow re-execution)
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh reset
+
+# Uninstall (removes skill and cleans BOOT.md)
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
 ```
+
+## Uninstall
+
+To completely remove daily-greeting skill:
+
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
+```
+
+This will:
+1. Read the recorded BOOT.md path from `data/install.json`
+2. Remove **only** the marked daily-greeting section (between `<!-- daily-greeting:start -->` and `<!-- daily-greeting:end -->`)
+3. Delete the skill directory
 
 ## Configuration
 
@@ -134,12 +158,14 @@ State saved to data/state.json
 daily-greeting/
 ├── SKILL.md           # Skill definition
 ├── README.md          # This file
+├── guide.md           # Installation guide (for OpenClaw auto-install)
 ├── LICENSE            # MIT License
 ├── config.json        # Configuration
 ├── scripts/
 │   └── greeting.sh    # Main execution script
 └── data/
-    └── state.json     # Execution state (auto-generated)
+    ├── state.json     # Execution state (auto-generated)
+    └── install.json   # Install record (BOOT.md path)
 ```
 
 ## Requirements

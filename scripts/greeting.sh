@@ -30,6 +30,19 @@ log_info() { echo -e "${GREEN}[INFO]${NC} $1"; }
 log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
+# Cross-platform sed in-place edit
+# macOS: sed -i '' 'pattern'
+# Linux: sed -i 'pattern'
+sed_i() {
+  if sed --version 2>/dev/null | grep -q "GNU"; then
+    # Linux (GNU sed)
+    sed -i "$@"
+  else
+    # macOS (BSD sed)
+    sed -i '' "$@"
+  fi
+}
+
 # Load configuration
 load_config() {
   if [ -f "$CONFIG_FILE" ]; then
@@ -171,6 +184,79 @@ reset_status() {
   log_info "State reset, will re-execute on next startup"
 }
 
+# Install - record BOOT.md path for uninstall
+record_install() {
+  local boot_md="${1:-$HOME/.openclaw/workspace/BOOT.md}"
+
+  mkdir -p "$SKILL_DIR/data"
+
+  local install_info=$(cat <<EOF
+{
+  "bootMdPath": "$boot_md",
+  "installedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+EOF
+)
+
+  echo "$install_info" > "$SKILL_DIR/data/install.json"
+  log_info "Install recorded: BOOT.md at $boot_md"
+}
+
+# Uninstall skill
+uninstall_skill() {
+  log_info "Uninstalling daily-greeting skill..."
+
+  local install_info="$SKILL_DIR/data/install.json"
+
+  # Step 1: Read BOOT.md path from install record
+  local boot_md=""
+  if [ -f "$install_info" ]; then
+    boot_md=$(jq -r '.bootMdPath // ""' "$install_info" 2>/dev/null)
+  fi
+
+  # Fallback to default path if not found
+  if [ -z "$boot_md" ]; then
+    boot_md="$HOME/.openclaw/workspace/BOOT.md"
+    log_info "No install record found, using default BOOT.md path: $boot_md"
+  else
+    log_info "Found BOOT.md path from install record: $boot_md"
+  fi
+
+  # Step 2: Clean BOOT.md
+  if [ -f "$boot_md" ]; then
+    # Check if our markers exist
+    if grep -q "<!-- daily-greeting:start -->" "$boot_md" && grep -q "<!-- daily-greeting:end -->" "$boot_md"; then
+      # Verify the content between markers matches expected pattern
+      local marker_content=$(sed -n '/<!-- daily-greeting:start -->/,/<!-- daily-greeting:end -->/p' "$boot_md")
+
+      if echo "$marker_content" | grep -q "bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run"; then
+        log_info "Found daily-greeting entry in BOOT.md, removing..."
+        # Use sed to remove only the marked content (including the markers)
+        sed_i '/<!-- daily-greeting:start -->/,/<!-- daily-greeting:end -->/d' "$boot_md"
+        log_info "Removed daily-greeting entry from BOOT.md"
+      else
+        log_error "Marker found but content mismatch, aborting BOOT.md modification"
+      fi
+    else
+      log_info "No daily-greeting entry found in BOOT.md"
+    fi
+  else
+    log_info "BOOT.md not found at: $boot_md, skipping"
+  fi
+
+  # Step 3: Remove skill directory
+  if [ -d "$SKILL_DIR" ]; then
+    log_info "Removing skill directory: $SKILL_DIR"
+    rm -rf "$SKILL_DIR"
+    log_info "Skill directory removed"
+  else
+    log_info "Skill directory not found: $SKILL_DIR"
+  fi
+
+  log_info "Uninstall completed!"
+  log_info "Note: You may need to manually restart OpenClaw Gateway"
+}
+
 # Main entry
 case "${1:-run}" in
   run)
@@ -182,16 +268,24 @@ case "${1:-run}" in
   reset)
     reset_status
     ;;
+  install)
+    record_install "${2:-}"
+    ;;
+  uninstall)
+    uninstall_skill
+    ;;
   help|--help|-h)
     echo "Daily Greeting Skill"
     echo ""
     echo "Usage: daily-greeting [command]"
     echo ""
     echo "Commands:"
-    echo "  run     - Execute greeting (default)"
-    echo "  status  - View execution status"
-    echo "  reset   - Reset state"
-    echo "  help    - Show help"
+    echo "  run        - Execute greeting (default)"
+    echo "  status     - View execution status"
+    echo "  reset      - Reset state"
+    echo "  install    - Record install info (auto-called by guide)"
+    echo "  uninstall  - Remove skill and clean BOOT.md"
+    echo "  help       - Show help"
     echo ""
     echo "Config file: $CONFIG_FILE"
     ;;

@@ -33,12 +33,19 @@ Add to workspace `BOOT.md`:
 ```markdown
 # BOOT.md
 
+<!-- daily-greeting:start -->
 Please execute daily greeting:
 ```
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 ```
 
 After execution, reply ONLY: `NO_REPLY`.
+<!-- daily-greeting:end -->
+```
+
+**Record install info (for clean uninstall):**
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
 ```
 
 ## Configuration
@@ -66,6 +73,8 @@ Each agent organizes their own greeting message based on their persona and sends
 | `bash scripts/greeting.sh run` | Execute greeting manually |
 | `bash scripts/greeting.sh status` | View execution status |
 | `bash scripts/greeting.sh reset` | Reset state (allows re-trigger) |
+| `bash scripts/greeting.sh install` | Record BOOT.md path (for uninstall) |
+| `bash scripts/greeting.sh uninstall` | Remove skill and clean BOOT.md |
 
 ## State File
 
@@ -79,6 +88,17 @@ State is stored in `data/state.json`:
   }
 }
 ```
+
+## Uninstall
+
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
+```
+
+This will:
+1. Read the recorded BOOT.md path from `data/install.json`
+2. Remove **only** the marked daily-greeting section
+3. Delete the skill directory
 
 ## Open Source License
 

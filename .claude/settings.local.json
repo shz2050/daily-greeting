@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(commit-commands:commit-push-pr)",
+      "Bash(gh auth:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(gh repo:*)",
+      "WebSearch",
+      "mcp__MiniMax__web_search"
+    ]
+  }
+}

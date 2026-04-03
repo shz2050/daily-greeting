@@ -37,15 +37,23 @@ nano ~/.openclaw/workspace/BOOT.md
 ```markdown
 # BOOT.md
 
+<!-- daily-greeting:start -->
 Please execute daily greeting:
 ```
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 ```
 
 After execution, reply ONLY: `NO_REPLY`.
+<!-- daily-greeting:end -->
 ```
 
 Save and exit (nano: `Ctrl+X` then `Y` to confirm).
+
+**Record install info for uninstall:**
+
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
+```
 
 ---
 
@@ -65,6 +73,21 @@ Now daily-greeting will run automatically when OpenClaw Gateway starts.
 - `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run` - Manual run
 - `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh status` - Check status
 - `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh reset` - Reset state
+- `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall` - Uninstall skill
+
+---
+
+## Uninstall
+
+To completely remove daily-greeting skill:
+
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
+```
+
+This will:
+1. Read the recorded BOOT.md path and remove only the daily-greeting section
+2. Delete the skill directory
 
 ---
 
