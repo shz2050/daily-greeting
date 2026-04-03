@@ -1,31 +1,34 @@
 # Daily Greeting Skill
 
+> [!TIP]
+> 给你的 OpenClaw Agent 赋予个性！它们每天早上自动向用户发送个性化问候。
+
 <!-- Language Navigation -->
 [English](../README.md) | [中文](README_zh.md)
 
 ---
 
-## 简介
+## 功能介绍
 
-一个 OpenClaw 技能，在 Gateway 启动时自动触发所有绑定的 agent 发送每日问候消息。
+你的 Agent 和你一起醒来！每天早上（或按你的计划），每个 Agent 都会向绑定频道发送个性化问候：
 
-**让你的 OpenClaw agent 自动发送个性化每日问候。**
+- 🤖 **Agent 个性** - 每条问候都符合 Agent 的人设
+- 🌐 **用户语言** - 使用用户偏好的语言发送问候
+- 📊 **相关信息** - 根据 Agent 角色提供状态更新、进度、提醒等
 
 ## 功能特性
 
-| 功能 | 描述 |
-|------|------|
-| 🎯 **双重触发模式** | 支持 BOOT.md（启动时）和 cron（定时）两种方式 |
-| 📊 **状态持久化** | 防止同一天内重复执行 |
-| 🔌 **多平台支持** | 支持 Discord、飞书等其他平台 |
-| ⏰ **工作日过滤** | 仅在工作日触发（可配置） |
-| 🔄 **可重置** | 支持手动重置状态 |
-| 🎨 **角色定制** | 每个 agent 以自己的风格发送消息 |
-| 🧹 **干净卸载** | 仅删除技能相关内容，无残留文件 |
+| | |
+|--------|---------|
+| ⚡ **自动触发** | 支持启动时（BOOT.md）或定时（OpenClaw cron） |
+| 🛡️ **无重复** | 状态持久化防止重复发送 |
+| 🌐 **任意频道** | Discord、飞书、Telegram 等 |
+| 🎨 **角色驱动** | 每个 Agent 有自己的问候风格 |
+| 🧹 **干净卸载** | 完全清除，无残留文件 |
 
 ## 快速开始
 
-### 一键安装（推荐）
+### 一键安装
 
 将以下命令发送给 OpenClaw：
 
@@ -34,7 +37,7 @@
 https://raw.githubusercontent.com/shz2050/daily-greeting/main/guide.md
 ```
 
-OpenClaw 将自动读取指南并完成整个安装（技能安装 + BOOT.md 配置 + 安装记录）。
+OpenClaw 会自动处理一切。
 
 ### 手动安装
 
@@ -49,11 +52,11 @@ cp -r daily-greeting ~/.openclaw/skills/daily-greeting
 chmod +x ~/.openclaw/skills/daily-greeting/scripts/greeting.sh
 ```
 
-### 自动触发配置
+## 自动触发配置
 
-根据你的使用习惯，选择一种或两种触发方式：
+BOOT.md（启动时）和 OpenClaw cron（定时）默认同时启用。状态检查防止重复发送。
 
-#### 方式一：BOOT.md（启动时触发）
+**BOOT.md（启动时触发）：**
 
 ```bash
 # 找到工作区
@@ -78,7 +81,7 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 <!-- daily-greeting:end -->
 ````
 
-#### 方式二：OpenClaw Cron（定时触发）
+**OpenClaw Cron（定时触发）：**
 
 ```bash
 openclaw cron add \
@@ -96,9 +99,13 @@ openclaw cron add \
 openclaw cron list
 ```
 
-两种方式同时生效，状态文件防止重复发送。
+**记录安装信息：**
 
-### 常用命令
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
+```
+
+## 常用命令
 
 ```bash
 # 手动执行问候
@@ -110,7 +117,7 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh status
 # 重置状态（允许重新执行）
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh reset
 
-# 卸载（删除技能并清理 BOOT.md）
+# 卸载
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
 ```
 
@@ -133,22 +140,19 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
 | `enabled` | boolean | `true` | 启用/禁用技能 |
 | `workingDaysOnly` | boolean | `true` | 仅在工作日触发（周一至周五） |
 | `delayMs` | number | `3000` | 执行前延迟（毫秒） |
-| `excludeAgents` | array | `["main"]` | 排除的 agent |
-| `triggerMessage` | string | (见上方) | 发送给每个 agent 的消息 |
+| `excludeAgents` | array | `["main"]` | 排除的 Agent |
+| `triggerMessage` | string | (见上方) | 发送给每个 Agent 的消息 |
 
 ## 工作原理
 
 ```
-Gateway 启动
-    ↓
-BOOT.md 执行
+Gateway 启动 / Cron 触发
     ↓
 greeting.sh 运行
     ↓
 读取配置 → 检查工作日 → 检查今日是否已执行
     ↓
-对每个绑定的 agent：
-    - 触发 agent 并发送提示
+对每个绑定的 Agent：
     - Agent 发送个性化问候到绑定频道
     ↓
 状态保存到 data/state.json
@@ -156,34 +160,14 @@ greeting.sh 运行
 
 ## 卸载
 
-完全移除 daily-greeting 技能：
-
 ```bash
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
 ```
 
-此命令将：
-1. 从 `data/install.json` 读取记录的 BOOT.md 路径
-2. 仅移除标记的 daily-greeting 部分
-3. 删除技能目录
-
-## 目录结构
-
-```
-daily-greeting/
-├── SKILL.md              # 技能定义
-├── README.md             # 英文文档
-├── docs/
-│   └── README_zh.md      # 中文文档
-├── guide.md              # 安装指南（用于 OpenClaw 自动安装）
-├── LICENSE               # MIT 许可证
-├── config.json           # 配置文件
-├── scripts/
-│   └── greeting.sh       # 主执行脚本
-└── data/
-    ├── state.json        # 执行状态（自动生成）
-    └── install.json      # 安装记录（BOOT.md 路径）
-```
+这将移除：
+1. BOOT.md 条目（仅标记部分）
+2. OpenClaw cron 任务
+3. 技能目录
 
 ## 环境要求
 
@@ -194,10 +178,6 @@ daily-greeting/
 ## 许可证
 
 MIT 许可证 - 详见 LICENSE 文件。
-
-## 贡献
-
-欢迎贡献！请提交 issue 或 PR。
 
 ## 支持
 
