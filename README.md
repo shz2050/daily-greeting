@@ -17,7 +17,17 @@ This skill executes on Gateway startup and triggers each configured agent to sen
 
 ## Quick Start
 
-### 1. Installation
+### One-Click Install (Recommended)
+
+OpenClaw can install directly from GitHub with a single command:
+
+```bash
+openclaw skills install github.com/shz2050/daily-greeting
+```
+
+That's it! OpenClaw will automatically download and install the skill.
+
+### Manual Installation
 
 ```bash
 # Clone this repository
@@ -30,7 +40,7 @@ cp -r daily-greeting ~/.openclaw/skills/daily-greeting
 chmod +x ~/.openclaw/skills/daily-greeting/scripts/greeting.sh
 ```
 
-### 2. Auto-trigger Setup
+### Auto-trigger Setup
 
 Add to your workspace `BOOT.md`:
 
@@ -45,7 +55,7 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 After execution, reply ONLY: `NO_REPLY`.
 ```
 
-### 3. Manual Execution
+### Manual Execution
 
 ```bash
 # Run greeting
