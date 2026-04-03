@@ -42,7 +42,22 @@ chmod +x ~/.openclaw/skills/daily-greeting/scripts/greeting.sh
 
 ### Auto-trigger Setup
 
-Add to your workspace `BOOT.md`:
+This skill auto-triggers on Gateway startup via `BOOT.md`. You need to create this file in your OpenClaw workspace.
+
+**1. Find your workspace directory:**
+
+```bash
+# Usually ~/.openclaw/workspace/ or the directory where you run openclaw
+ls ~/.openclaw/workspace/
+```
+
+**2. Create or edit `BOOT.md` in your workspace:**
+
+```bash
+nano ~/.openclaw/workspace/BOOT.md
+```
+
+**3. Add this content:**
 
 ```markdown
 # BOOT.md
@@ -54,6 +69,8 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 
 After execution, reply ONLY: `NO_REPLY`.
 ```
+
+Now when OpenClaw Gateway starts, it will automatically execute this greeting skill.
 
 ### Manual Execution
 
