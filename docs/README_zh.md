@@ -114,7 +114,7 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
   "workingDaysOnly": true,
   "delayMs": 3000,
   "excludeAgents": ["main"],
-  "triggerMessage": "请发送每日问候到你绑定的频道。要求：1) 根据你的人设和性格组织消息内容；2) 使用消息工具发送到绑定的频道；3) 发送后结束对话"
+  "triggerMessage": "Please send a daily greeting to your bound channel. Requirements: 1) Compose the greeting in the user's preferred language (infer from channel history and user context); 2) Use message tool to send to your bound channel; 3) End conversation after sending"
 }
 ```
 

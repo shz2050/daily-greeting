@@ -17,7 +17,7 @@ DEFAULT_CONFIG='{
   "workingDaysOnly": true,
   "delayMs": 3000,
   "excludeAgents": ["main"],
-  "triggerMessage": "Please send a daily greeting to your bound channel. Requirements: 1) Organize message content based on your persona and character; 2) Use message tool to send to your bound channel; 3) End conversation after sending"
+  "triggerMessage": "Please send a daily greeting to your bound channel. Requirements: 1) Compose the greeting in the user'\''s preferred language (infer from channel history and user context); 2) Use message tool to send to your bound channel; 3) End conversation after sending"
 }'
 
 # Color output
@@ -103,10 +103,10 @@ trigger_agent() {
   local agent_id="$1"
   local channel="$2"
   local target="$3"
-  
+
   # Get trigger message
   local trigger_msg=$(echo "$CONFIG" | jq -r '.triggerMessage // "Please send a daily greeting"')
-  
+
   # Call agent (let agent decide message content and channel)
   openclaw agent --agent "$agent_id" --channel "$channel" -m "$trigger_msg" --deliver 2>&1
 }
