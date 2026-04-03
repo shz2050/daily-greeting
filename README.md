@@ -1,19 +1,27 @@
 # Daily Greeting Skill
 
-A OpenClaw skill that automatically triggers all bound agents to send daily greeting messages when the Gateway starts.
+<!-- Language Navigation -->
+[English](README.md) | [中文](docs/README_zh.md)
+
+---
 
 ## Overview
 
-This skill executes on Gateway startup and triggers each configured agent to send their own personalized daily greeting to their bound channels. Each agent organizes their message based on their own persona and character.
+A OpenClaw skill that automatically triggers all bound agents to send daily greeting messages when the Gateway starts.
+
+**Give your OpenClaw agents the ability to send personalized daily greetings automatically.**
 
 ## Features
 
-- 🎯 **Auto-trigger**: Executes automatically on Gateway startup (via BOOT.md)
-- 📊 **State persistence**: Prevents duplicate executions within the same day
-- 🔌 **Multi-platform support**: Works with Discord, Feishu, and other channels
-- ⏰ **Working days filter**: Only triggers on weekdays (configurable)
-- 🔄 **Resettable**: Manual reset available for re-execution
-- 🎨 **Persona-based**: Each agent sends messages in their own style
+| Feature | Description |
+|---------|-------------|
+| 🎯 **Auto-trigger** | Executes automatically on Gateway startup (via BOOT.md) |
+| 📊 **State persistence** | Prevents duplicate executions within the same day |
+| 🔌 **Multi-platform** | Works with Discord, Feishu, and other channels |
+| ⏰ **Working days filter** | Only triggers on weekdays (configurable) |
+| 🔄 **Resettable** | Manual reset available for re-execution |
+| 🎨 **Persona-based** | Each agent sends messages in their own style |
+| 🧹 **Clean uninstall** | Removes only skill content, no leftover files |
 
 ## Quick Start
 
@@ -26,7 +34,7 @@ Please execute the daily-greeting installation guide:
 https://raw.githubusercontent.com/shz2050/daily-greeting/main/guide.md
 ```
 
-OpenClaw will automatically read the guide and complete the entire installation (skill + BOOT.md setup).
+OpenClaw will automatically read the guide and complete the entire installation (skill + BOOT.md setup + install record).
 
 ### Manual Installation
 
@@ -48,11 +56,10 @@ This skill auto-triggers on Gateway startup via `BOOT.md`. You need to create th
 **1. Find your workspace directory:**
 
 ```bash
-# Usually ~/.openclaw/workspace/ or the directory where you run openclaw
 ls ~/.openclaw/workspace/
 ```
 
-**2. Create or edit `BOOT.md` in your workspace:**
+**2. Create or edit `BOOT.md`:**
 
 ```bash
 nano ~/.openclaw/workspace/BOOT.md
@@ -60,18 +67,18 @@ nano ~/.openclaw/workspace/BOOT.md
 
 **3. Add this content:**
 
-```markdown
+````markdown
 # BOOT.md
 
 <!-- daily-greeting:start -->
 Please execute daily greeting:
-```
+```bash
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 ```
 
 After execution, reply ONLY: `NO_REPLY`.
 <!-- daily-greeting:end -->
-```
+````
 
 **4. Record install info (for clean uninstall):**
 
@@ -81,10 +88,10 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/w
 
 Now when OpenClaw Gateway starts, it will automatically execute this greeting skill.
 
-### Manual Execution
+### Commands
 
 ```bash
-# Run greeting
+# Run greeting manually
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 
 # Check status
@@ -97,22 +104,9 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh reset
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
 ```
 
-## Uninstall
-
-To completely remove daily-greeting skill:
-
-```bash
-bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
-```
-
-This will:
-1. Read the recorded BOOT.md path from `data/install.json`
-2. Remove **only** the marked daily-greeting section (between `<!-- daily-greeting:start -->` and `<!-- daily-greeting:end -->`)
-3. Delete the skill directory
-
 ## Configuration
 
-Edit `config.json`:
+Edit `config.json` to customize behavior:
 
 ```json
 {
@@ -124,14 +118,12 @@ Edit `config.json`:
 }
 ```
 
-### Configuration Options
-
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `enabled` | boolean | true | Enable/disable the skill |
-| `workingDaysOnly` | boolean | true | Only trigger on weekdays (Mon-Fri) |
-| `delayMs` | number | 3000 | Delay before execution (milliseconds) |
-| `excludeAgents` | array | ["main"] | Agents to exclude from greeting |
+| `enabled` | boolean | `true` | Enable/disable the skill |
+| `workingDaysOnly` | boolean | `true` | Only trigger on weekdays (Mon-Fri) |
+| `delayMs` | number | `3000` | Delay before execution (milliseconds) |
+| `excludeAgents` | array | `["main"]` | Agents to exclude from greeting |
 | `triggerMessage` | string | (see above) | Message sent to each agent |
 
 ## How It Works
@@ -152,20 +144,33 @@ For each bound agent:
 State saved to data/state.json
 ```
 
+## Uninstall
+
+To completely remove daily-greeting skill:
+
+```bash
+bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
+```
+
+This will:
+1. Read the recorded BOOT.md path from `data/install.json`
+2. Remove **only** the marked daily-greeting section
+3. Delete the skill directory
+
 ## Directory Structure
 
 ```
 daily-greeting/
-├── SKILL.md           # Skill definition
-├── README.md          # This file
-├── guide.md           # Installation guide (for OpenClaw auto-install)
-├── LICENSE            # MIT License
-├── config.json        # Configuration
+├── SKILL.md              # Skill definition
+├── README.md             # This file
+├── guide.md              # Installation guide (for OpenClaw auto-install)
+├── LICENSE               # MIT License
+├── config.json           # Configuration
 ├── scripts/
-│   └── greeting.sh    # Main execution script
+│   └── greeting.sh       # Main execution script
 └── data/
-    ├── state.json     # Execution state (auto-generated)
-    └── install.json   # Install record (BOOT.md path)
+    ├── state.json        # Execution state (auto-generated)
+    └── install.json      # Install record (BOOT.md path)
 ```
 
 ## Requirements
