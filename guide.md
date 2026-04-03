@@ -34,18 +34,18 @@ nano ~/.openclaw/workspace/BOOT.md
 
 **Add this content:**
 
-```markdown
+````markdown
 # BOOT.md
 
 <!-- daily-greeting:start -->
 Please execute daily greeting:
-```
+```bash
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 ```
 
 After execution, reply ONLY: `NO_REPLY`.
 <!-- daily-greeting:end -->
-```
+````
 
 Save and exit (nano: `Ctrl+X` then `Y` to confirm).
 
