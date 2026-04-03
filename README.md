@@ -19,13 +19,22 @@ This skill executes on Gateway startup and triggers each configured agent to sen
 
 ### One-Click Install (Recommended)
 
-OpenClaw can install directly from GitHub with a single command:
+**Step 1: Install the skill**
 
 ```bash
 openclaw skills install github.com/shz2050/daily-greeting
 ```
 
-That's it! OpenClaw will automatically download and install the skill.
+**Step 2: Let OpenClaw auto-configure BOOT.md**
+
+Send OpenClaw this command to automatically set up auto-trigger:
+
+```
+Please read and execute the installation guide:
+https://raw.githubusercontent.com/shz2050/daily-greeting/main/guide.md
+```
+
+That's it! OpenClaw will read the guide and automatically complete the BOOT.md setup.
 
 ### Manual Installation
 
