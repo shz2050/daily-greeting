@@ -266,7 +266,16 @@ uninstall_skill() {
     log_info "BOOT.md not found at: $boot_md, skipping"
   fi
 
-  # Step 3: Remove skill directory
+  # Step 3: Remove OpenClaw cron job
+  if openclaw cron list 2>/dev/null | grep -q "daily-greeting"; then
+    log_info "Removing OpenClaw cron job..."
+    openclaw cron remove --id daily-greeting 2>/dev/null || true
+    log_info "OpenClaw cron job removed"
+  else
+    log_info "No OpenClaw cron job found"
+  fi
+
+  # Step 4: Remove skill directory
   if [ -d "$SKILL_DIR" ]; then
     log_info "Removing skill directory: $SKILL_DIR"
     rm -rf "$SKILL_DIR"

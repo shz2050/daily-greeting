@@ -173,7 +173,8 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh uninstall
 This will:
 1. Read the recorded BOOT.md path from `data/install.json`
 2. Remove **only** the marked daily-greeting section
-3. Delete the skill directory
+3. Remove the OpenClaw cron job
+4. Delete the skill directory
 
 ## Directory Structure
 
