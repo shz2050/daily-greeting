@@ -21,7 +21,7 @@ This skill executes on Gateway startup and triggers each configured agent to sen
 
 ```bash
 # Clone this repository
-git clone https://github.com/your-repo/daily-greeting.git
+git clone https://github.com/shz2050/daily-greeting.git
 
 # Copy to OpenClaw skills directory
 cp -r daily-greeting ~/.openclaw/skills/daily-greeting
@@ -106,7 +106,7 @@ State saved to data/state.json
 daily-greeting/
 ├── SKILL.md           # Skill definition
 ├── README.md          # This file
-├── _meta.json         # Skill metadata
+├── LICENSE            # MIT License
 ├── config.json        # Configuration
 ├── scripts/
 │   └── greeting.sh    # Main execution script

@@ -51,7 +51,7 @@ Configure in `config.json`:
   "workingDaysOnly": true,
   "delayMs": 3000,
   "excludeAgents": ["main"],
-  "triggerMessage": "Please send a daily greeting to your bound channel. Requirements: 1) Organize message content based on your persona and性格; 2) Use message tool to send to your bound channel; 3) End conversation after sending"
+  "triggerMessage": "Please send a daily greeting to your bound channel. Requirements: 1) Organize message content based on your persona and character; 2) Use message tool to send to your bound channel; 3) End conversation after sending"
 }
 ```
 
