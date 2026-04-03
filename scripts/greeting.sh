@@ -202,6 +202,24 @@ EOF
   log_info "Install recorded: BOOT.md at $boot_md"
 }
 
+# Install cron job for daily greeting
+install_cron() {
+  local cron_schedule="${1:-0 9 * * 1-5}"
+  local cron_cmd="bash $SKILL_DIR/scripts/greeting.sh run"
+  local cron_entry="$cron_schedule $cron_cmd"
+
+  # Check if already installed
+  if crontab -l 2>/dev/null | grep -q "$cron_cmd"; then
+    log_info "Cron job already installed: $cron_entry"
+    return 0
+  fi
+
+  # Add cron job (append to existing crontab)
+  (crontab -l 2>/dev/null; echo "$cron_entry") | crontab -
+  log_info "Cron job installed: $cron_entry"
+  log_info "To modify: crontab -e"
+}
+
 # Uninstall skill
 uninstall_skill() {
   log_info "Uninstalling daily-greeting skill..."
@@ -271,6 +289,9 @@ case "${1:-run}" in
   install)
     record_install "${2:-}"
     ;;
+  cron)
+    install_cron "${2:-}"
+    ;;
   uninstall)
     uninstall_skill
     ;;
@@ -283,7 +304,9 @@ case "${1:-run}" in
     echo "  run        - Execute greeting (default)"
     echo "  status     - View execution status"
     echo "  reset      - Reset state"
-    echo "  install    - Record install info (auto-called by guide)"
+    echo "  install    - Record BOOT.md path"
+    echo "  cron       - Install cron job (default: 9am weekdays)"
+    echo "  uninstall  - Remove skill and clean BOOT.md"
     echo "  uninstall  - Remove skill and clean BOOT.md"
     echo "  help       - Show help"
     echo ""
