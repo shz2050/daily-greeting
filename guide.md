@@ -1,10 +1,10 @@
-# Daily Greeting Skill - 自动安装指南
+# Daily Greeting Skill - Installation Guide
 
-## 正在安装 daily-greeting skill...
+## Installing daily-greeting skill...
 
 ---
 
-## 第一步：安装 Skill
+## Step 1: Install the Skill
 
 ```bash
 openclaw skills install github.com/shz2050/daily-greeting
@@ -12,27 +12,27 @@ openclaw skills install github.com/shz2050/daily-greeting
 
 ---
 
-## 第二步：配置 BOOT.md 自动触发
+## Step 2: Configure BOOT.md for Auto-trigger
 
-Skill 已安装成功！现在需要配置开机自动执行。
+The skill is installed! Now configure it to run automatically on Gateway startup.
 
-**找到你的 workspace 目录：**
+**Find your workspace directory:**
 ```bash
 ls ~/.openclaw/workspace/
 ```
 
-如果目录不存在或为空，创建一个：
+If the directory doesn't exist or is empty, create it:
 ```bash
 mkdir -p ~/.openclaw/workspace
 ```
 
-**创建/编辑 BOOT.md：**
+**Create/edit BOOT.md:**
 
 ```bash
 nano ~/.openclaw/workspace/BOOT.md
 ```
 
-**添加以下内容：**
+**Add this content:**
 
 ```markdown
 # BOOT.md
@@ -45,11 +45,11 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 After execution, reply ONLY: `NO_REPLY`.
 ```
 
-保存退出（nano: 按 `Ctrl+X` 再按 `Y` 确认）。
+Save and exit (nano: `Ctrl+X` then `Y` to confirm).
 
 ---
 
-## 第三步：验证安装
+## Step 3: Verify Installation
 
 ```bash
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh status
@@ -57,17 +57,17 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh status
 
 ---
 
-## 完成！
+## Done!
 
-现在每次 OpenClaw Gateway 启动时，会自动执行每日问候。
+Now daily-greeting will run automatically when OpenClaw Gateway starts.
 
-**可用命令：**
-- `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run` - 手动执行
-- `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh status` - 查看状态
-- `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh reset` - 重置状态
+**Available commands:**
+- `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run` - Manual run
+- `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh status` - Check status
+- `bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh reset` - Reset state
 
 ---
 
-**技能信息：**
-- 名称：daily-greeting
-- 仓库：https://github.com/shz2050/daily-greeting
+**Skill info:**
+- Name: daily-greeting
+- Repo: https://github.com/shz2050/daily-greeting
