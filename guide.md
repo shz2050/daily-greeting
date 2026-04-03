@@ -12,27 +12,28 @@ openclaw skills install github.com/shz2050/daily-greeting
 
 ---
 
-## Step 2: Configure BOOT.md for Auto-trigger
+## Step 2: Configure Auto-trigger
 
-The skill is installed! Now configure it to run automatically on Gateway startup.
+Both BOOT.md and cron are enabled by default. State check prevents duplicate greetings.
 
-**Find your workspace directory:**
+**BOOT.md (auto-trigger on startup):**
+
+Find your workspace directory:
 ```bash
 ls ~/.openclaw/workspace/
 ```
 
-If the directory doesn't exist or is empty, create it:
+If not found, create it:
 ```bash
 mkdir -p ~/.openclaw/workspace
 ```
 
-**Create/edit BOOT.md:**
-
+Create/edit BOOT.md:
 ```bash
 nano ~/.openclaw/workspace/BOOT.md
 ```
 
-**Add this content:**
+Add this content:
 
 ````markdown
 # BOOT.md
@@ -49,7 +50,16 @@ After execution, reply ONLY: `NO_REPLY`.
 
 Save and exit (nano: `Ctrl+X` then `Y` to confirm).
 
-**Record install info for uninstall:**
+**Cron (auto-trigger on schedule):**
+
+Already set up - to modify, edit crontab:
+```bash
+crontab -e
+```
+
+Default: `0 9 * * 1-5` (9am on weekdays)
+
+**Record install info:**
 
 ```bash
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md

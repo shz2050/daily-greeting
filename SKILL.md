@@ -7,11 +7,12 @@ description: Daily greeting Skill. Automatically sends greeting messages to all 
 
 ## Features
 
-- 🎯 **Auto-trigger**: Executes on Gateway startup (via BOOT.md)
+- 🎯 **Dual trigger modes**: Supports both BOOT.md (on startup) and cron (scheduled)
 - 📊 **State persistence**: Records execution status, prevents duplicate runs
 - 🔌 **Multi-platform**: Supports Discord, Feishu, etc.
 - ⏰ **Working days filter**: Only triggers on weekdays (configurable)
 - 🔄 **Resettable**: Supports manual reset
+- 🛡️ **Safe repetition prevention**: Both BOOT.md and cron can coexist - state check prevents duplicate greetings
 
 ## Installation
 
@@ -28,6 +29,10 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 
 ### Auto-trigger
 
+Choose one or both triggering methods based on your usage:
+
+#### Method 1: BOOT.md (triggers on Gateway startup)
+
 Add to workspace `BOOT.md`:
 
 ```markdown
@@ -43,10 +48,15 @@ After execution, reply ONLY: `NO_REPLY`.
 <!-- daily-greeting:end -->
 ```
 
-**Record install info (for clean uninstall):**
+#### Method 2: Cron (triggers on schedule)
+
+Default cron: `0 9 * * 1-5` (9am on weekdays)
+
 ```bash
-bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
+crontab -e
 ```
+
+Both methods work together safely - state check prevents duplicate greetings.
 
 ## Configuration
 

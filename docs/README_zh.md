@@ -15,7 +15,7 @@
 
 | 功能 | 描述 |
 |------|------|
-| 🎯 **自动触发** | Gateway 启动时自动执行（通过 BOOT.md） |
+| 🎯 **双重触发模式** | 支持 BOOT.md（启动时）和 cron（定时）两种方式 |
 | 📊 **状态持久化** | 防止同一天内重复执行 |
 | 🔌 **多平台支持** | 支持 Discord、飞书等其他平台 |
 | ⏰ **工作日过滤** | 仅在工作日触发（可配置） |
@@ -51,21 +51,19 @@ chmod +x ~/.openclaw/skills/daily-greeting/scripts/greeting.sh
 
 ### 自动触发配置
 
-此技能通过 `BOOT.md` 在 Gateway 启动时自动触发。你需要在 OpenClaw 工作区中创建此文件。
+根据你的使用习惯，选择一种或两种触发方式：
 
-**1. 找到你的工作区目录：**
+#### 方式一：BOOT.md（启动时触发）
 
 ```bash
+# 找到工作区
 ls ~/.openclaw/workspace/
-```
 
-**2. 创建或编辑 `BOOT.md`：**
-
-```bash
+# 创建/编辑 BOOT.md
 nano ~/.openclaw/workspace/BOOT.md
 ```
 
-**3. 添加以下内容：**
+添加以下内容：
 
 ````markdown
 # BOOT.md
@@ -80,13 +78,16 @@ bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh run
 <!-- daily-greeting:end -->
 ````
 
-**4. 记录安装信息（用于干净卸载）：**
+#### 方式二：Cron（定时触发）
 
+默认 cron：`0 9 * * 1-5`（每个工作日早上 9 点）
+
+修改方式：
 ```bash
-bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
+crontab -e
 ```
 
-现在，当 OpenClaw Gateway 启动时，它将自动执行此问候技能。
+两种方式同时生效，状态文件防止重复发送。
 
 ### 常用命令
 

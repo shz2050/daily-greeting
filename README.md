@@ -15,7 +15,7 @@ A OpenClaw skill that automatically triggers all bound agents to send daily gree
 
 | Feature | Description |
 |---------|-------------|
-| 🎯 **Auto-trigger** | Executes automatically on Gateway startup (via BOOT.md) |
+| 🎯 **Dual trigger modes** | Supports both BOOT.md (on startup) and cron (scheduled) |
 | 📊 **State persistence** | Prevents duplicate executions within the same day |
 | 🔌 **Multi-platform** | Works with Discord, Feishu, and other channels |
 | ⏰ **Working days filter** | Only triggers on weekdays (configurable) |
@@ -51,21 +51,23 @@ chmod +x ~/.openclaw/skills/daily-greeting/scripts/greeting.sh
 
 ### Auto-trigger Setup
 
-This skill auto-triggers on Gateway startup via `BOOT.md`. You need to create this file in your OpenClaw workspace.
+Choose one or both triggering methods based on your usage:
 
-**1. Find your workspace directory:**
+#### Auto-trigger Setup
+
+Both BOOT.md and cron are enabled by default. State check prevents duplicate greetings.
+
+**BOOT.md (triggers on Gateway startup):**
 
 ```bash
+# Find workspace
 ls ~/.openclaw/workspace/
-```
 
-**2. Create or edit `BOOT.md`:**
-
-```bash
+# Create/edit BOOT.md
 nano ~/.openclaw/workspace/BOOT.md
 ```
 
-**3. Add this content:**
+Add this content:
 
 ````markdown
 # BOOT.md
@@ -80,13 +82,20 @@ After execution, reply ONLY: `NO_REPLY`.
 <!-- daily-greeting:end -->
 ````
 
-**4. Record install info (for clean uninstall):**
+**Cron (triggers on schedule):**
+
+Default cron: `0 9 * * 1-5` (9am on weekdays)
+
+To modify:
+```bash
+crontab -e
+```
+
+**Record install info:**
 
 ```bash
 bash ~/.openclaw/skills/daily-greeting/scripts/greeting.sh install ~/.openclaw/workspace/BOOT.md
 ```
-
-Now when OpenClaw Gateway starts, it will automatically execute this greeting skill.
 
 ### Commands
 
